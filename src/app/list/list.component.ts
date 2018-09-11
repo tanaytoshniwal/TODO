@@ -17,7 +17,7 @@ export class ListComponent implements OnInit {
   reset(){
     this.list = [];
     this.count = 0;
-    this.http.post('https://us-central1-nodefunctions-9f8f7.cloudfunctions.net/todo/read', {}).subscribe(
+    this.http.post('https://enigmatic-gorge-82863.herokuapp.com/read', {}).subscribe(
       (dd)=>{
         console.log(dd);
         for(let l of <any>dd){
@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
     if(this.data != null && this.data != '')
     this.date = new Date();
     this.date = this.date.toLocaleDateString() + ' - ' + this.date.toLocaleTimeString();
-    this.http.post('https://us-central1-nodefunctions-9f8f7.cloudfunctions.net/todo/store', {task: this.data, status: 'pending', priority: this.priority, date: this.date}).subscribe(
+    this.http.post('https://enigmatic-gorge-82863.herokuapp.com/store', {task: this.data, status: 'pending', priority: this.priority, date: this.date}).subscribe(
       (data)=>{
         console.log('data added');
         this.list.push({task: this.data, status: 'pending', priority: this.priority, date: this.date});
@@ -44,7 +44,7 @@ export class ListComponent implements OnInit {
 
   remove(l, i){
     console.log(this.list[i]);
-    this.http.post('https://us-central1-nodefunctions-9f8f7.cloudfunctions.net/todo/remove', this.list[i]).subscribe(
+    this.http.post('https://enigmatic-gorge-82863.herokuapp.com/remove', this.list[i]).subscribe(
       (data)=>{
         console.log('data deleted'); 
         if(this.list[i].status=='pending') this.count--;
@@ -57,7 +57,7 @@ export class ListComponent implements OnInit {
   edit(l){
     let temp = prompt('Input new Entry:');
     let t = {old_data: {task: l.task}, new_data: {task: temp}};
-    this.http.post('https://us-central1-nodefunctions-9f8f7.cloudfunctions.net/todo/update', t).subscribe(
+    this.http.post('https://enigmatic-gorge-82863.herokuapp.com/update', t).subscribe(
       (data)=>{
         l.task = temp;
         console.log('data updated');
@@ -74,7 +74,7 @@ export class ListComponent implements OnInit {
       temp = 'pending';  this.count++; 
     }
     let t = {old_data: {task: l.task ,status: l.status, priority: l.priority, date: l.date}, new_data: {task: l.task ,status: temp, priority: l.priority, date: l.date}};
-    this.http.post('https://us-central1-nodefunctions-9f8f7.cloudfunctions.net/todo/update', t).subscribe(
+    this.http.post('https://enigmatic-gorge-82863.herokuapp.com/update', t).subscribe(
       (data)=>{
         l.status = temp;
         console.log('data updated');
@@ -87,7 +87,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.post('https://us-central1-nodefunctions-9f8f7.cloudfunctions.net/todo/read', {}).subscribe(
+    this.http.post('https://enigmatic-gorge-82863.herokuapp.com/read', {}).subscribe(
       (dd)=>{
         console.log(dd);
         for(let l of <any>dd){
